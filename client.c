@@ -2,7 +2,7 @@
 #include<winsock2.h>
 #include<stdint.h>
 #include"binn.c"
-#include"structures.c"
+#include"structures.h"
 #include"deserialize.c"
 
 #pragma comment(lib,"ws2_32.lib") //Winsock Library

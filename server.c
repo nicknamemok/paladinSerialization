@@ -3,7 +3,7 @@
 #include<stdint.h>
 #include"binn.c"
 #include"serialize.c"
-#include"structures.c"
+#include"structures.h"
 
 
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
@@ -51,8 +51,6 @@ void main()
 		exit(EXIT_FAILURE);
 	}
 
-
-
 	printf("Server ready. Awaiting data packets.\n");
 
 	while(1)
@@ -67,12 +65,17 @@ void main()
 
 		// clear buffer line
 		memset(buf,'\0', BUFLEN);
+
+		struct student student1;
+		student1.id = 123;
+		student1.name = "Nick";
+		student1.age = 23;
 		
 		//print details of the client/peer and the data received
 		printf("Received packet from %s:%d\n", inet_ntoa(si_other.sin_addr), ntohs(si_other.sin_port));
 
 		// Send binn object serialized
-		if (sendto(s, binn_ptr(obj), binn_size(obj), 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR)
+		if (sendto(s, (char *) &student1, sizeof(student1), 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR)
 			{
 				printf("sendto() failed with error code : %d" , WSAGetLastError());
 				exit(EXIT_FAILURE);
