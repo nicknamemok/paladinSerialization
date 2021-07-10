@@ -53,33 +53,41 @@ void main()
 
 	printf("Server ready. Awaiting data packets.\n");
 
+	struct student student1;
+	student1.id = 123;
+	student1.name = "Nick";
+	student1.age = 23;
+
 	while(1)
 	{
 		
-		//try to receive some data, this is a blocking call
-		if ((recv_len = recvfrom(s, buf, sizeof(buf), 0, (struct sockaddr *) &si_other, &slen)) == SOCKET_ERROR)
-		{
-			printf("recvfrom() failed with error code : %d" , WSAGetLastError());
-			exit(EXIT_FAILURE);
-		}
+		// //try to receive some data, this is a blocking call
+		// if ((recv_len = recvfrom(s, buf, sizeof(buf), 0, (struct sockaddr *) &si_other, &slen)) == SOCKET_ERROR)
+		// {
+		// 	printf("recvfrom() failed with error code : %d" , WSAGetLastError());
+		// 	exit(EXIT_FAILURE);
+		// }
 
-		// clear buffer line
-		memset(buf,'\0', BUFLEN);
+		// // clear buffer line
+		// memset(buf,'\0', BUFLEN);
 
-		struct student student1;
-		student1.id = 123;
-		student1.name = "Nick";
-		student1.age = 23;
+		recvfrom(s, buf, sizeof(buf), 0, (struct sockaddr *) &si_other, &slen);
+
+
 		
 		//print details of the client/peer and the data received
-		printf("Received packet from %s:%d\n", inet_ntoa(si_other.sin_addr), ntohs(si_other.sin_port));
+		// printf("Received packet from %s:%d\n", inet_ntoa(si_other.sin_addr), ntohs(si_other.sin_port));
 
 		// Send binn object serialized
-		if (sendto(s, (char *) &student1, sizeof(student1), 0, (struct sockaddr*) &si_other, slen) == SOCKET_ERROR)
-			{
-				printf("sendto() failed with error code : %d" , WSAGetLastError());
-				exit(EXIT_FAILURE);
-			}
+		// if (sendto(s, (char *) &student1, sizeof(student1), 0, (struct sockaddr*) &si_other, slen) != SOCKET_ERROR)
+		sendto(s, "Hi", 2*sizeof(char), 0, (struct sockaddr*) &si_other, slen);
+		// sendV = sendto(s, (char *) &student1, sizeof(student1), 0, (struct sockaddr*) &si_other, slen);
+
+			// {
+				// printf("Package sent.");
+				// printf("sendto() failed with error code : %d" , WSAGetLastError());
+				// exit(EXIT_FAILURE);
+			// }
         
 
 	}
