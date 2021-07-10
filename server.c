@@ -2,17 +2,23 @@
 #include<winsock2.h>
 #include<stdint.h>
 #include"binn.c"
-#include"structures.c"
 #include"serialize.c"
+#include"structures.c"
+
 
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
 
 #define BUFLEN 512	//Max length of buffer
-#define PORT 8888	//The port on which to listen for incoming data
-#define SERVER "127.0.0.1"
+#define PORT 25	//The port on which to listen for incoming data
+#define SERVER "159.49.225.223"
 
 void main()
 {
+
+	binn *obj;
+	obj = binn_object();
+	obj = createStudentBinn(obj,12,"Nicholas",27);
+	
 	SOCKET s;
 	struct sockaddr_in server, si_other;
 	int slen , recv_len;
@@ -45,9 +51,8 @@ void main()
 		exit(EXIT_FAILURE);
 	}
 
-    binn *obj;
-    obj = binn_object();
-    obj = createStudentBinn(obj,12,"Nicholas",27);
+
+
 	printf("Server ready. Awaiting data packets.\n");
 
 	while(1)

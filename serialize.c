@@ -4,5 +4,3 @@ binn * createStudentBinn(binn *obj, int id, char* name, int age){
     binn_object_set_int32(obj, "age", age);
     return obj;
 };
-
-
